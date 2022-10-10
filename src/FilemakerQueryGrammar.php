@@ -22,11 +22,7 @@ class FilemakerQueryGrammar extends Grammar
      */
     public function parameter($value)
     {
-        if ($this->isExpression($value))
-            return $this->getValue($value);
-        if (!is_numeric($value))
-            $value = "'" . $value . "'";
-        return $value;
+        return $this->isExpression($value) ? $this->getValue($value) : '?';
     }
 
     /**
@@ -61,6 +57,6 @@ class FilemakerQueryGrammar extends Grammar
      */
     protected function wrapValue($value)
     {
-        return $value;
+        return $value === '*' ? $value : '"'.str_replace('"', '\"', $value).'"';
     }
 }
